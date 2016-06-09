@@ -6,13 +6,12 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 public class MetaBoard extends JPanel implements MouseListener
 {
-   public static int layers;
+   public static Board master;
    /*
    8 1 2
    7 0 3
    6 5 4
    */
-   public static int[][] grid = new int [9][9];//board,dirOnBoard
    public MetaBoard(int n)
    {
       layers=2;
@@ -33,7 +32,7 @@ public class MetaBoard extends JPanel implements MouseListener
    }
    public void mouseClicked(MouseEvent e)
    {
-   
+      
    }
    public void mouseDragged( MouseEvent e){}
    public void mouseExited( MouseEvent e ){}
