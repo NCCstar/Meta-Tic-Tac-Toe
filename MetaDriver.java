@@ -22,7 +22,7 @@ public class MetaDriver
       */
       MetaBoard board = new MetaBoard(2);
       JFrame frame = new JFrame("Meta-Tic-Tac-Toe");
-      frame.setSize(200,200);
+      frame.setSize(1000,1000);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setContentPane(board);
       frame.setVisible(true);
