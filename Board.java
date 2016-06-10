@@ -2,7 +2,7 @@ import java.awt.*;
 public class Board
 {
    private Object[] values;
-   
+   private int factor;
    /*
    0 1 2
    3 4 5
@@ -10,6 +10,15 @@ public class Board
    */
    public Board(int layer)
    {
+      switch(layer)
+      {
+         case 1:
+            factor=3;
+         case 2:
+            factor=9;
+         default:
+            factor=1;
+      }
       if(layer==0)
       {
          values = new Integer[9];
@@ -100,22 +109,14 @@ public class Board
       }
       else
       {
-         for(int i=0;i<values.length;i++)
-         {
-            if(i<3)
-            {
-               ((Board)values[i]).draw(g,y,x+i*MetaBoard.DIM);
-            }
-            else
-               if(i<6)
-               {
-                  ((Board)values[i]).draw(g,y+(i-3)*MetaBoard.DIM,x+(i-3)*MetaBoard.DIM);
-               }
-               else
-               {
-                  ((Board)values[i]).draw(g,y+(i-6)*MetaBoard.DIM,x+(i-6)*MetaBoard.DIM);
-               }
-         }
+         
+         ((Board)values[0]).draw(g,0,0);
+      
+         ((Board)values[1]).draw(g,factor*MetaBoard.DIM,0);
+      
+         ((Board)values[2]).draw(g,factor*2*MetaBoard.DIM,0);
+            
+         
       }
    }
 }

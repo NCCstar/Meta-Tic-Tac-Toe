@@ -8,7 +8,7 @@ public class MetaBoard extends JPanel implements MouseListener
 {
    public static Board master;
    public static int layers;
-   public static final int DIM=35;
+   public static final int DIM=30;
    boolean turn=true;
    public MetaBoard(int n)
    {
@@ -20,6 +20,7 @@ public class MetaBoard extends JPanel implements MouseListener
    {
       super.paintComponent(g);
       drawBoard(g);
+      master.draw(g,0,0);
    }
    public void drawBoard(Graphics g)
    {
@@ -51,7 +52,6 @@ public class MetaBoard extends JPanel implements MouseListener
                g.fillRect(i,0,3,DIM*27);
                g.fillRect(0,i,DIM*27,3);
             }
-            master.draw(g,0,0);
             break;
       }
    }
@@ -93,7 +93,7 @@ public class MetaBoard extends JPanel implements MouseListener
             y-=6;
          }
       path[2]=y*3+x;
-      master.set(path,true);
+      master.set(path,turn);
       turn=!turn;
       repaint();
    }
