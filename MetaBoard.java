@@ -8,6 +8,7 @@ public class MetaBoard extends JPanel implements MouseListener
 {
    public static Board master;
    public static int layers;
+   public static int[] ref;
    public static final int DIM=30;
    boolean turn=true;
    public MetaBoard(int n)
@@ -15,6 +16,7 @@ public class MetaBoard extends JPanel implements MouseListener
       addMouseListener(this);
       layers=n;
       master=new Board(layers);
+      ref=new int[]{4,4};
    }
    public void paintComponent(Graphics g)
    {
@@ -33,7 +35,55 @@ public class MetaBoard extends JPanel implements MouseListener
                g.fillRect(0,i,DIM*3,1);
             }
             break;
+         case 1:
+            g.setColor(Color.blue.darker());
+            for(int i=DIM;i<DIM*9;i+=DIM)
+            {
+               g.fillRect(i,0,1,DIM*9);
+               g.fillRect(0,i,DIM*9,1);
+            }
+            g.setColor(Color.black);
+            for(int i=DIM*3;i<DIM*9;i+=DIM*3)
+            {
+               g.fillRect(i,0,2,DIM*9);
+               g.fillRect(0,i,DIM*9,2);
+            }
+            break;
          case 2:
+            g.setColor(Color.lightGray);
+            int y=0;
+            int x=0;
+            if(ref[0]<3)
+            {
+               x+=ref[0]+9*DIM;
+            }
+            else
+               if(ref[0]<6)
+               {
+                  y+=9*DIM;
+                  x+=(ref[0]-3)*9*DIM;
+               }
+               else
+               {
+                  y+=DIM*18;
+                  x+=(ref[0]-6)*9*DIM;
+               }
+            if(ref[1]<3)
+            {
+               x+=ref[1]+DIM*3;
+            }
+            else
+               if(ref[1]<6)
+               {
+                  y+=DIM*3;
+                  x+=(ref[1]-3)*3*DIM;
+               }
+               else
+               {
+                  y+=DIM*6;
+                  x+=(ref[1]-6)*3*DIM;
+               }
+            g.fillRect(x,y,DIM*3,DIM*3);
             g.setColor(Color.green.darker());
             for(int i=DIM;i<DIM*27;i+=DIM)
             {
@@ -93,8 +143,13 @@ public class MetaBoard extends JPanel implements MouseListener
             y-=6;
          }
       path[2]=y*3+x;
-      master.set(path,turn);
-      turn=!turn;
+      if(path[0]==ref[0]&&path[1]==ref[1])
+      {
+         master.set(path,turn);
+         turn=!turn;
+         ref[0]=path[1];
+         ref[1]=path[2];
+      }
       repaint();
    }
    public void mouseDragged( MouseEvent e){}

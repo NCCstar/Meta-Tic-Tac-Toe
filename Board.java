@@ -14,8 +14,10 @@ public class Board
       {
          case 1:
             factor=3;
+            break;
          case 2:
             factor=9;
+            break;
          default:
             factor=1;
       }
@@ -76,7 +78,7 @@ public class Board
       int yCo=y;
       int xCo=x;
       if(values instanceof Integer[])
-      {
+      {//lowest level
          for(int i=0;i<values.length;i++)
          {
             if(i<3)
@@ -109,14 +111,15 @@ public class Board
       }
       else
       {
-         
-         ((Board)values[0]).draw(g,0,0);
-      
-         ((Board)values[1]).draw(g,factor*MetaBoard.DIM,0);
-      
-         ((Board)values[2]).draw(g,factor*2*MetaBoard.DIM,0);
-            
-         
+         ((Board)values[0]).draw(g,y,x);
+         ((Board)values[1]).draw(g,y,factor*MetaBoard.DIM+x);
+         ((Board)values[2]).draw(g,y,factor*2*MetaBoard.DIM+x);
+         ((Board)values[3]).draw(g,y+factor*MetaBoard.DIM,x);
+         ((Board)values[4]).draw(g,y+factor*MetaBoard.DIM,x+factor*MetaBoard.DIM);
+         ((Board)values[5]).draw(g,y+factor*MetaBoard.DIM,x+factor*2*MetaBoard.DIM);
+         ((Board)values[6]).draw(g,y+factor*MetaBoard.DIM*2,x);
+         ((Board)values[7]).draw(g,y+factor*MetaBoard.DIM*2,x+factor*MetaBoard.DIM);
+         ((Board)values[8]).draw(g,y+factor*2*MetaBoard.DIM,x+factor*MetaBoard.DIM*2);
       }
    }
 }
