@@ -3,6 +3,7 @@ public class Board
 {
    private Object[] values;
    private int factor;
+   private int solve=0;
    /*
    0 1 2
    3 4 5
@@ -63,6 +64,7 @@ public class Board
             else
                values[path[0]]=-1;
          }
+         checkSolved();
          return;
       }
       int index=path[0];
@@ -73,8 +75,47 @@ public class Board
       }
       ((Board)(values[index])).set(newPath,isX);
    }
+   private void checkSolved()
+   {
+      Integer[] temp=(Integer[])values;
+      for(int i=0;i<9;i+=3)
+      {
+         if(Math.abs(temp[i]+temp[i+1]+temp[i+2])==3)
+         {
+            solve=temp[i];
+         }
+      }
+      for(int i=0;i<3;i++)
+      {
+         if(Math.abs(temp[i]+temp[i+3]+temp[i+6])==3)
+         {
+            solve=temp[i];
+         }
+      }
+      if(Math.abs(temp[0]+temp[4]+temp[8])==3)
+      {
+         solve=temp[0];
+      }
+      if(Math.abs(temp[2]+temp[4]+temp[6])==3)
+      {
+         solve=temp[2];
+      }
+   }
+   public int getSolve()
+   {
+      return solve;
+   }
    public void draw(Graphics g,int y,int x)
    {
+      if(solve==1)
+      {
+         g.drawLine(x,y,x+MetaBoard.DIM*factor*3,y+MetaBoard.DIM*factor*3);
+         g.drawLine(x,y+MetaBoard.DIM*factor*3,x+MetaBoard.DIM*factor*3,y);
+      }
+      if(solve==-1)
+      {
+         g.drawOval(x,y,MetaBoard.DIM*factor*3,MetaBoard.DIM*factor*3);
+      }
       int yCo=y;
       int xCo=x;
       if(values instanceof Integer[])
