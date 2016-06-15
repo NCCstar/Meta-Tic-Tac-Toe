@@ -10,14 +10,18 @@ public class MetaBoard extends JPanel implements MouseListener
    private static int layers;
    private static int[] ref;
    public static final int DIM=30;
-   private boolean isPath=false;
+   private boolean isPath=true;
    boolean turn=true;
    public MetaBoard(int n)
    {
       addMouseListener(this);
       layers=n;
       master=new Board(layers);
-      ref=new int[]{4,4};
+      ref=new int[n];
+      for(int i=0;i<ref.length;i++)
+      {
+         ref[i]=4;
+      }
    }
    public void paintComponent(Graphics g)
    {
@@ -41,22 +45,29 @@ public class MetaBoard extends JPanel implements MouseListener
             g.setColor(Color.lightGray);
             int y=0;
             int x=0;
-            if(ref[0]<3)
+            if(ref[0]==-1)
             {
-               x+=ref[0]*DIM*3;
+               g.fillRect(x,y,DIM*9,DIM*9);
             }
             else
-               if(ref[0]<6)
+            {
+               if(ref[0]<3)
                {
-                  y+=DIM*3;
-                  x+=(ref[0]-3)*3*DIM;
+                  x+=ref[0]*DIM*3;
                }
                else
-               {
-                  y+=DIM*6;
-                  x+=(ref[0]-6)*3*DIM;
-               }
-            g.fillRect(x,y,DIM*3,DIM*3);
+                  if(ref[0]<6)
+                  {
+                     y+=DIM*3;
+                     x+=(ref[0]-3)*3*DIM;
+                  }
+                  else
+                  {
+                     y+=DIM*6;
+                     x+=(ref[0]-6)*3*DIM;
+                  }
+               g.fillRect(x,y,DIM*3,DIM*3);
+            }
             g.setColor(Color.blue.darker());
             for(int i=DIM;i<DIM*9;i+=DIM)
             {
@@ -84,42 +95,67 @@ public class MetaBoard extends JPanel implements MouseListener
             {
                g.drawOval(DIM*9,0,DIM*2,DIM*2);
             }
+            String temp="[";
+            for(int i=0;i<ref.length;i++)
+            {
+               temp+=ref[i];
+               if(i<ref.length-1)
+               {
+                  temp+=",";
+               }
+            }
+            temp+="]";
+            g.drawString(temp,0,DIM*10);
             break;
          case 2:
             g.setColor(Color.lightGray);
             y=0;
             x=0;
-            if(ref[0]<3)
+            if(ref[0]==-1)
             {
-               x+=ref[0]*9*DIM;
+               g.fillRect(x,y,DIM*27,DIM*27);
             }
             else
-               if(ref[0]<6)
+            {
+               if(ref[0]<3)
                {
-                  y+=9*DIM;
-                  x+=(ref[0]-3)*9*DIM;
+                  x+=ref[0]*9*DIM;
+               }
+               else
+                  if(ref[0]<6)
+                  {
+                     y+=9*DIM;
+                     x+=(ref[0]-3)*9*DIM;
+                  }
+                  else
+                  {
+                     y+=DIM*18;
+                     x+=(ref[0]-6)*9*DIM;
+                  }
+               if(ref[1]==-1)
+               {
+                  g.fillRect(x,y,DIM*9,DIM*9);
                }
                else
                {
-                  y+=DIM*18;
-                  x+=(ref[0]-6)*9*DIM;
+                  if(ref[1]<3)
+                  {
+                     x+=ref[1]*DIM*3;
+                  }
+                  else
+                     if(ref[1]<6)
+                     {
+                        y+=DIM*3;
+                        x+=(ref[1]-3)*3*DIM;
+                     }
+                     else
+                     {
+                        y+=DIM*6;
+                        x+=(ref[1]-6)*3*DIM;
+                     }
+                  g.fillRect(x,y,DIM*3,DIM*3);
                }
-            if(ref[1]<3)
-            {
-               x+=ref[1]*DIM*3;
             }
-            else
-               if(ref[1]<6)
-               {
-                  y+=DIM*3;
-                  x+=(ref[1]-3)*3*DIM;
-               }
-               else
-               {
-                  y+=DIM*6;
-                  x+=(ref[1]-6)*3*DIM;
-               }
-            g.fillRect(x,y,DIM*3,DIM*3);
             g.setColor(Color.green.darker());
             for(int i=DIM;i<DIM*27;i+=DIM)
             {
@@ -143,6 +179,17 @@ public class MetaBoard extends JPanel implements MouseListener
             else
                g.setColor(Color.blue);
             g.fillRect((int)(DIM*27.1),0,DIM*2,DIM*2);
+            temp="[";
+            for(int i=0;i<ref.length;i++)
+            {
+               temp+=ref[i];
+               if(i<ref.length-1)
+               {
+                  temp+=",";
+               }
+            }
+            temp+="]";
+            g.drawString(temp,0,DIM*28);
             break;
       }
    }
@@ -177,12 +224,12 @@ public class MetaBoard extends JPanel implements MouseListener
                   y-=6;
                }
             path[1]=y*3+x;
-            if(path[0]==ref[0]||!isPath)
+            if(path[0]==ref[0]||ref[0]==-1||!isPath)
             {
                if(master.set(path,turn))
                {
                   turn=!turn;
-                  if(((Board)(master.get(new int[]{ref[0]}))).getSolve()!=0)
+                  if(((Board)(master.get(new int[]{path[1]}))).getSolve()!=0)
                   {
                      ref[0]=-1;
                   }
@@ -231,12 +278,24 @@ public class MetaBoard extends JPanel implements MouseListener
                   y-=6;
                }
             path[2]=y*3+x;
-            if(path[0]==ref[0]&&path[1]==ref[1])
+            if((path[0]==ref[0]&&path[1]==ref[1])||!isPath)
             {
+               if(master.set(path,turn))
+               {
+                  turn=!turn;
+                  if(((Board)(master.get(new int[]{path[1]}))).getSolve()!=0)
+                  {
+                     ref[0]=-1;
+                  }
+                  else
+                     ref[0]=path[1];
+               }
+                  /*
                master.set(path,turn);
                turn=!turn;
                ref[0]=path[1];
                ref[1]=path[2];
+               //*/
             }
             break;
       }

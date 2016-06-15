@@ -20,7 +20,7 @@ public class MetaDriver
             break;
       }
       */
-      MetaBoard board = new MetaBoard(1);
+      MetaBoard board = new MetaBoard(2);
       JFrame frame = new JFrame("Meta-Tic-Tac-Toe");
       frame.setSize(1000,1000);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
