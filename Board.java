@@ -39,21 +39,28 @@ public class Board
          }
       }
    }
-   public Integer get(int[] path)
+   public Object get(int[] path)
    {
       if(values instanceof Integer[])
       {
          return (Integer)values[path[0]];
       }
       int index=path[0];
-      int[] newPath = new int[path.length-1];
-      for(int i=0;i<newPath.length;i++)
+      if(path.length==1)
       {
-         newPath[i]=path[i+1];
+         return values[path[0]];
       }
-      return ((Board)(values[index])).get(newPath);
+      else
+      {
+         int[] newPath = new int[path.length-1];
+         for(int i=0;i<newPath.length;i++)
+         {
+            newPath[i]=path[i+1];
+         }
+         return ((Board)(values[index])).get(newPath);
+      }
    }
-   public void set(int[] path,boolean isX)
+   public boolean set(int[] path,boolean isX)
    {
       if(values instanceof Integer[])
       {
@@ -63,9 +70,10 @@ public class Board
                values[path[0]]=1;
             else
                values[path[0]]=-1;
+            checkSolved();
+            return true;
          }
-         checkSolved();
-         return;
+         return false;
       }
       int index=path[0];
       int[] newPath = new int[path.length-1];
@@ -73,7 +81,7 @@ public class Board
       {
          newPath[i]=path[i+1];
       }
-      ((Board)(values[index])).set(newPath,isX);
+      return ((Board)(values[index])).set(newPath,isX);
    }
    private void checkSolved()
    {

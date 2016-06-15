@@ -6,10 +6,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 public class MetaBoard extends JPanel implements MouseListener
 {
-   public static Board master;
-   public static int layers;
-   public static int[] ref;
+   private static Board master;
+   private static int layers;
+   private static int[] ref;
    public static final int DIM=30;
+   private boolean isPath=false;
    boolean turn=true;
    public MetaBoard(int n)
    {
@@ -22,6 +23,7 @@ public class MetaBoard extends JPanel implements MouseListener
    {
       super.paintComponent(g);
       drawBoard(g);
+      g.setColor(Color.black);
       master.draw(g,0,0);
    }
    public void drawBoard(Graphics g)
@@ -36,6 +38,25 @@ public class MetaBoard extends JPanel implements MouseListener
             }
             break;
          case 1:
+            g.setColor(Color.lightGray);
+            int y=0;
+            int x=0;
+            if(ref[0]<3)
+            {
+               x+=ref[0]*DIM*3;
+            }
+            else
+               if(ref[0]<6)
+               {
+                  y+=DIM*3;
+                  x+=(ref[0]-3)*3*DIM;
+               }
+               else
+               {
+                  y+=DIM*6;
+                  x+=(ref[0]-6)*3*DIM;
+               }
+            g.fillRect(x,y,DIM*3,DIM*3);
             g.setColor(Color.blue.darker());
             for(int i=DIM;i<DIM*9;i+=DIM)
             {
@@ -48,11 +69,26 @@ public class MetaBoard extends JPanel implements MouseListener
                g.fillRect(i,0,2,DIM*9);
                g.fillRect(0,i,DIM*9,2);
             }
+            if(isPath)
+               g.setColor(Color.green);
+            else
+               g.setColor(Color.blue);
+            g.fillRect((int)(DIM*9),0,DIM*2,DIM*2);
+            g.setColor(Color.black);
+            if(turn)
+            {
+               g.drawLine(DIM*9,0,DIM*11,DIM*2);
+               g.drawLine(DIM*9,DIM*2,DIM*11,0);
+            }
+            else
+            {
+               g.drawOval(DIM*9,0,DIM*2,DIM*2);
+            }
             break;
          case 2:
             g.setColor(Color.lightGray);
-            int y=0;
-            int x=0;
+            y=0;
+            x=0;
             if(ref[0]<3)
             {
                x+=ref[0]*9*DIM;
@@ -102,6 +138,11 @@ public class MetaBoard extends JPanel implements MouseListener
                g.fillRect(i,0,3,DIM*27);
                g.fillRect(0,i,DIM*27,3);
             }
+            if(isPath)
+               g.setColor(Color.green);
+            else
+               g.setColor(Color.blue);
+            g.fillRect((int)(DIM*27.1),0,DIM*2,DIM*2);
             break;
       }
    }
@@ -109,12 +150,54 @@ public class MetaBoard extends JPanel implements MouseListener
    {
       int x=e.getX()/DIM;
       int y=e.getY()/DIM;
+      int[] path;
       switch(layers)
       {
          case 1:
-            
+            if(x>9&&x<11&&y<2)
+            {
+               isPath=!isPath;
+               break;
+            }
+            path=new int[2];
+            path[0]=(y/3)*3+(x/3);
+            if(path[0]<3)
+            {
+               x-=path[0]*3;
+            }
+            else
+               if(path[0]<6)
+               {
+                  x-=(path[0]-3)*3;
+                  y-=3;
+               }
+               else
+               {
+                  x-=(path[0]-6)*3;
+                  y-=6;
+               }
+            path[1]=y*3+x;
+            if(path[0]==ref[0]||!isPath)
+            {
+               if(master.set(path,turn))
+               {
+                  turn=!turn;
+                  if(((Board)(master.get(new int[]{ref[0]}))).getSolve()!=0)
+                  {
+                     ref[0]=-1;
+                  }
+                  else
+                     ref[0]=path[1];
+               }
+            }
+            break;
          case 2:
-            int[] path=new int[3];
+            if(x>27&&x<29&&y<2)
+            {
+               isPath=!isPath;
+               break;
+            }
+            path=new int[3];
             path[0]=(y/9)*3+(x/9);
             if(path[0]<3)
             {
