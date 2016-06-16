@@ -83,30 +83,64 @@ public class Board
       }
       return ((Board)(values[index])).set(newPath,isX);
    }
-   private void checkSolved()
+   public void checkSolved()
    {
-      Integer[] temp=(Integer[])values;
-      for(int i=0;i<9;i+=3)
+      if(values instanceof Integer[])
       {
-         if(Math.abs(temp[i]+temp[i+1]+temp[i+2])==3)
+         Integer[] temp=(Integer[])values;
+         for(int i=0;i<9;i+=3)
          {
-            solve=temp[i];
+            if(Math.abs(temp[i]+temp[i+1]+temp[i+2])==3)
+            {
+               solve=temp[i];
+            }
+         }
+         for(int i=0;i<3;i++)
+         {
+            if(Math.abs(temp[i]+temp[i+3]+temp[i+6])==3)
+            {
+               solve=temp[i];
+            }
+         }
+         if(Math.abs(temp[0]+temp[4]+temp[8])==3)
+         {
+            solve=temp[0];
+         }
+         if(Math.abs(temp[2]+temp[4]+temp[6])==3)
+         {
+            solve=temp[2];
          }
       }
-      for(int i=0;i<3;i++)
+      else
       {
-         if(Math.abs(temp[i]+temp[i+3]+temp[i+6])==3)
+         Integer[] temp=new Integer[9];
+         for(int i=0;i<temp.length;i++)
          {
-            solve=temp[i];
+            ((Board)values[i]).checkSolved();
+            temp[i]=((Board)values[i]).getSolve();
          }
-      }
-      if(Math.abs(temp[0]+temp[4]+temp[8])==3)
-      {
-         solve=temp[0];
-      }
-      if(Math.abs(temp[2]+temp[4]+temp[6])==3)
-      {
-         solve=temp[2];
+         for(int i=0;i<9;i+=3)
+         {
+            if(Math.abs(temp[i]+temp[i+1]+temp[i+2])==3)
+            {
+               solve=temp[i];
+            }
+         }
+         for(int i=0;i<3;i++)
+         {
+            if(Math.abs(temp[i]+temp[i+3]+temp[i+6])==3)
+            {
+               solve=temp[i];
+            }
+         }
+         if(Math.abs(temp[0]+temp[4]+temp[8])==3)
+         {
+            solve=temp[0];
+         }
+         if(Math.abs(temp[2]+temp[4]+temp[6])==3)
+         {
+            solve=temp[2];
+         }
       }
    }
    public int getSolve()
