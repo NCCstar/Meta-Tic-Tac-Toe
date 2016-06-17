@@ -200,6 +200,12 @@ public class MetaBoard extends JPanel implements MouseListener
       int[] path;
       switch(layers)
       {
+         case 0:
+            path = new int[1];
+            path[0]=y*3+x;
+            if(master.set(path,turn))
+               turn=!turn;  
+            break;    
          case 1:
             if(x>9&&x<11&&y<2)
             {
@@ -278,13 +284,23 @@ public class MetaBoard extends JPanel implements MouseListener
                   y-=6;
                }
             path[2]=y*3+x;
-            if((path[0]==ref[0]&&path[1]==ref[1])||path[0]==-1||(path[0]==ref[0]&&path[1]==-1)||!isPath)//normal move
+            if((path[0]==ref[0]&&path[1]==ref[1])||ref[0]==-1||(path[0]==ref[0]&&ref[1]==-1)||!isPath)//normal move
             {
                if(master.set(path,turn))
                {
                   turn=!turn;
-                  ref[0]=path[1];
-                  ref[1]=path[2];
+                  if(((Board)(master.get(new int[]{path[1]}))).getSolve()!=0)
+                  {
+                     ref[0]=-1;
+                  }
+                  else
+                     ref[0]=path[1];
+                  if(((Board)(master.get(new int[]{path[1],path[2]}))).getSolve()!=0)
+                  {
+                     ref[1]=-1;
+                  }
+                  else
+                     ref[1]=path[2];
                }
             }
             break;
