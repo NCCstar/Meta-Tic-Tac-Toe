@@ -20,7 +20,7 @@ public class MetaBoard extends JPanel implements MouseListener
       ref=new int[n];
       for(int i=0;i<ref.length;i++)
       {
-         ref[i]=4;
+         ref[i]=-1;
       }
    }
    public void paintComponent(Graphics g)
@@ -179,6 +179,7 @@ public class MetaBoard extends JPanel implements MouseListener
             else
                g.setColor(Color.blue);
             g.fillRect((int)(DIM*27.1),0,DIM*2,DIM*2);
+            g.setColor(Color.black);
             temp="[";
             for(int i=0;i<ref.length;i++)
             {
@@ -191,6 +192,97 @@ public class MetaBoard extends JPanel implements MouseListener
             temp+="]";
             g.drawString(temp,0,DIM*28);
             break;
+         case 3:
+            g.setColor(Color.lightGray);
+            y=0;
+            x=0;
+            if(ref[0]==-1)
+            {
+               g.fillRect(x,y,DIM*81,DIM*81);
+            }
+            else
+            {
+               if(ref[0]<3)
+               {
+                  x+=ref[0]*27*DIM;
+               }
+               else
+                  if(ref[0]<6)
+                  {
+                     y+=27*DIM;
+                     x+=(ref[0]-3)*27*DIM;
+                  }
+                  else
+                  {
+                     y+=DIM*54;
+                     x+=(ref[0]-6)*27*DIM;
+                  }
+               if(ref[1]==-1)
+               {
+                  g.fillRect(x,y,DIM*27,DIM*27);
+               }
+               else
+               {
+                  if(ref[1]<3)
+                  {
+                     x+=ref[1]*DIM*9;
+                  }
+                  else
+                     if(ref[1]<6)
+                     {
+                        y+=DIM*9;
+                        x+=(ref[1]-3)*9*DIM;
+                     }
+                     else
+                     {
+                        y+=DIM*18;
+                        x+=(ref[1]-6)*9*DIM;
+                     }
+                  g.fillRect(x,y,DIM*9,DIM*9);
+               }
+            }
+            //g.setColor(Color.purple);
+            for(int i=DIM;i<DIM*81;i+=DIM)
+            {
+               
+            }
+            g.setColor(Color.green.darker());
+            for(int i=DIM;i<DIM*81;i+=DIM*3)
+            {
+               g.fillRect(i,0,1,DIM*27);
+               g.fillRect(0,i,DIM*27,1);
+            }
+            g.setColor(Color.blue.darker());
+            for(int i=DIM*3;i<DIM*81;i+=DIM*9)
+            {
+               g.fillRect(i,0,2,DIM*27);
+               g.fillRect(0,i,DIM*27,2);
+            }
+            g.setColor(Color.black);
+            for(int i=DIM*9;i<DIM*81;i+=DIM*27)
+            {
+               g.fillRect(i,0,3,DIM*27);
+               g.fillRect(0,i,DIM*27,3);
+            }
+            if(isPath)
+               g.setColor(Color.green);
+            else
+               g.setColor(Color.blue);
+            g.fillRect((int)(DIM*27.1),0,DIM*2,DIM*2);
+            g.setColor(Color.black);
+            temp="[";
+            for(int i=0;i<ref.length;i++)
+            {
+               temp+=ref[i];
+               if(i<ref.length-1)
+               {
+                  temp+=",";
+               }
+            }
+            temp+="]";
+            g.drawString(temp,0,DIM*28);
+            break;
+      
       }
    }
    public void mouseClicked(MouseEvent e)

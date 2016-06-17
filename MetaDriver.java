@@ -4,7 +4,7 @@ public class MetaDriver
    public static void main(String[] arg)
    {
       
-      Object[] options = {"Regular","Meta-TTT","Meta^2"};//possible player numbers
+      Object[] options = {"Regular","Meta-TTT","Meta^2","Meta^3"};//possible player numbers
       String sel = (String)JOptionPane.showInputDialog(null,"What type of Tic-Tac-Toe?","Choices",JOptionPane.INFORMATION_MESSAGE, null,options, options[0]);
       int layers=2;
       switch(sel)
@@ -18,8 +18,10 @@ public class MetaDriver
          case "Meta^2":
             layers=2;
             break;
+         case "Meta^3":
+            layers=3;
+            break;
       }
-      
       MetaBoard board = new MetaBoard(layers);
       JFrame frame = new JFrame("Meta-Tic-Tac-Toe");
       frame.setSize(1000,1000);
