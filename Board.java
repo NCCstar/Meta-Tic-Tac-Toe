@@ -149,15 +149,7 @@ public class Board
    }
    public void draw(Graphics g,int y,int x)
    {
-      if(solve==1)
-      {
-         g.drawLine(x,y,x+MetaBoard.DIM*factor*3,y+MetaBoard.DIM*factor*3);
-         g.drawLine(x,y+MetaBoard.DIM*factor*3,x+MetaBoard.DIM*factor*3,y);
-      }
-      if(solve==-1)
-      {
-         g.drawOval(x,y,MetaBoard.DIM*factor*3,MetaBoard.DIM*factor*3);
-      }
+      g.setColor(Color.black);
       int yCo=y;
       int xCo=x;
       if(values instanceof Integer[])
@@ -203,6 +195,17 @@ public class Board
          ((Board)values[6]).draw(g,y+factor*MetaBoard.DIM*2,x);
          ((Board)values[7]).draw(g,y+factor*MetaBoard.DIM*2,x+factor*MetaBoard.DIM);
          ((Board)values[8]).draw(g,y+factor*2*MetaBoard.DIM,x+factor*MetaBoard.DIM*2);
+      }
+      if(solve==1)
+      {
+         g.setColor(Color.red.darker());
+         g.drawLine(x,y,x+MetaBoard.DIM*factor*3,y+MetaBoard.DIM*factor*3);
+         g.drawLine(x,y+MetaBoard.DIM*factor*3,x+MetaBoard.DIM*factor*3,y);
+      }
+      if(solve==-1)
+      {
+         g.setColor(Color.blue.darker());
+         g.drawOval(x,y,MetaBoard.DIM*factor*3,MetaBoard.DIM*factor*3);
       }
    }
 }

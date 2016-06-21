@@ -9,7 +9,7 @@ public class MetaBoard extends JPanel implements MouseListener
    private static Board master;
    private static int layers;
    private static int[] ref;
-   public static final int DIM=30;
+   public static final int DIM=60;
    private boolean isPath=true;
    boolean turn=true;
    public MetaBoard(int n)
@@ -68,7 +68,7 @@ public class MetaBoard extends JPanel implements MouseListener
                   }
                g.fillRect(x,y,DIM*3,DIM*3);
             }
-            g.setColor(Color.blue.darker());
+            g.setColor(Color.blue);
             for(int i=DIM;i<DIM*9;i+=DIM)
             {
                g.fillRect(i,0,1,DIM*9);
