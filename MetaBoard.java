@@ -15,6 +15,7 @@ public class MetaBoard extends JPanel implements MouseListener
    boolean turn=true;
    public MetaBoard(int n,int s)
    {
+      Calendar cal = new GregorianCalendar();
       DIM=(int)(s/Math.pow(3,n+1));
       addMouseListener(this);
       layers=n;
@@ -25,18 +26,21 @@ public class MetaBoard extends JPanel implements MouseListener
          ref[i]=-1;
       }
    }
-   public MetaBoard(String add,int s)
-   {
-      Calendar cal = new Calendar();
-      
+   public MetaBoard(ArrayList<String> rec,int s)
+   {   
       int n=1;//get from file
       DIM=(int)(s/Math.pow(3,n+1));
       addMouseListener(this);
       master=new Board(layers);
-      ref=new int[n];
-      for(int i=0;i<ref.length;i++)
+      for(String x:rec)
       {
-         ref[i]=-1;
+         String[] temp = x.split(",");
+         int[] path = new int[temp.length];
+         for(int i=0;i<path.length;i++)
+         {
+            path[i] = Integer.parseInt(temp[i]);
+         }
+         
       }
    }
    public void paintComponent(Graphics g)
@@ -327,7 +331,7 @@ public class MetaBoard extends JPanel implements MouseListener
    {
       int x=e.getX()/DIM;
       int y=e.getY()/DIM;
-      int[] path;
+      int[] path = new int[0];
       switch(layers)
       {
          case 0:
@@ -515,9 +519,19 @@ public class MetaBoard extends JPanel implements MouseListener
                      ref[2]=path[3];
                }
             }
-         
             break;
       }
+      String temp="";
+      for(int i=0;i<path.length;i++)
+      {
+         temp+=path[i];
+         if(i<path.length-1)
+         {
+            temp+=",";
+         }
+      }
+      temp+="";
+      record.add(temp);
       master.checkSolved();
       if(master.getSolve()==1)
       {

@@ -1,14 +1,33 @@
 import javax.swing.*;
+import java.io.*;
+import java.util.*;
 public class MetaDriver
 {
    public static void main(String[] arg)
    {
       MetaBoard board;
-      final int SIZE=1100;
+      File folder = new File("Games/");
+      final int SIZE=900;
       int file=JOptionPane.showConfirmDialog(null,"Read from file?","File?",JOptionPane.YES_NO_OPTION);
-      if(file==JOptionPane.YES_OPTION)
+      if(file==JOptionPane.YES_OPTION&&folder.listFiles().length>0)
       {
-         board = new MetaBoard(0,SIZE);
+         Object[] list = folder.listFiles();
+         String obj = ((File)JOptionPane.showInputDialog(null,"","",JOptionPane.INFORMATION_MESSAGE, null,list, list[0])).getName();
+         try
+         {
+            ArrayList<String> toSend = new ArrayList<String>();
+            Scanner input = new Scanner(new FileReader("Games/"+obj));
+            while(input.hasNextLine())
+            {
+               toSend.add(input.nextLine());
+            }
+            board = new MetaBoard(toSend,SIZE);
+         }
+         catch(IOException e)
+         {
+            e.printStackTrace();
+            board = new MetaBoard(0,SIZE);
+         }
       }
       else
       {
