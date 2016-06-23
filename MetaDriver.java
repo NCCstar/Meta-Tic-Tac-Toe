@@ -3,7 +3,7 @@ public class MetaDriver
 {
    public static void main(String[] arg)
    {
-      final int SIZE=1000;
+      final int SIZE=1100;
       Object[] options = {"Regular","Meta-TTT","Meta^2","Meta^3"};//possible player numbers
       String sel = (String)JOptionPane.showInputDialog(null,"What type of Tic-Tac-Toe?","Choices",JOptionPane.INFORMATION_MESSAGE, null,options, options[0]);
       int layers=2;

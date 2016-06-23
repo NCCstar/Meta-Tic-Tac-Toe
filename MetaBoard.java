@@ -239,7 +239,29 @@ public class MetaBoard extends JPanel implements MouseListener
                         y+=DIM*18;
                         x+=(ref[1]-6)*9*DIM;
                      }
-                  g.fillRect(x,y,DIM*9,DIM*9);
+                  if(ref[2]==-1)
+                  {
+                     g.fillRect(x,y,DIM*9,DIM*9);
+                  }
+                  else
+                  {
+                     if(ref[2]<3)
+                     {
+                        x+=ref[2]*DIM*3;
+                     }
+                     else
+                        if(ref[2]<6)
+                        {
+                           y+=DIM*3;
+                           x+=(ref[1]-3)*3*DIM;
+                        }
+                        else
+                        {
+                           y+=DIM*6;
+                           x+=(ref[2]-6)*3*DIM;
+                        }
+                     g.fillRect(x,y,DIM*3,DIM*3);
+                  }
                }
             }
             g.setColor(Color.pink.darker());

@@ -11,17 +11,7 @@ public class Board
    */
    public Board(int layer)
    {
-      switch(layer)
-      {
-         case 1:
-            factor=3;
-            break;
-         case 2:
-            factor=9;
-            break;
-         default:
-            factor=1;
-      }
+      factor=(int)Math.pow(3,layer);
       if(layer==0)
       {
          values = new Integer[9];
