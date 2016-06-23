@@ -9,11 +9,12 @@ public class MetaBoard extends JPanel implements MouseListener
    private static Board master;
    private static int layers;
    private static int[] ref;
-   public static final int DIM=60;
+   public static int DIM;
    private boolean isPath=true;
    boolean turn=true;
-   public MetaBoard(int n)
+   public MetaBoard(int n,int s)
    {
+      DIM=(int)(s/Math.pow(3,n+1));
       addMouseListener(this);
       layers=n;
       master=new Board(layers);
@@ -241,34 +242,35 @@ public class MetaBoard extends JPanel implements MouseListener
                   g.fillRect(x,y,DIM*9,DIM*9);
                }
             }
-            //g.setColor(Color.purple);
+            g.setColor(Color.pink.darker());
             for(int i=DIM;i<DIM*81;i+=DIM)
             {
-               
+               g.fillRect(i,0,1,DIM*81);
+               g.fillRect(0,i,DIM*81,1);
             }
             g.setColor(Color.green.darker());
-            for(int i=DIM;i<DIM*81;i+=DIM*3)
+            for(int i=DIM*3;i<DIM*81;i+=DIM*3)
             {
-               g.fillRect(i,0,1,DIM*27);
-               g.fillRect(0,i,DIM*27,1);
+               g.fillRect(i,0,1,DIM*81);
+               g.fillRect(0,i,DIM*81,1);
             }
             g.setColor(Color.blue.darker());
-            for(int i=DIM*3;i<DIM*81;i+=DIM*9)
+            for(int i=DIM*9;i<DIM*81;i+=DIM*9)
             {
-               g.fillRect(i,0,2,DIM*27);
-               g.fillRect(0,i,DIM*27,2);
+               g.fillRect(i,0,2,DIM*81);
+               g.fillRect(0,i,DIM*81,2);
             }
             g.setColor(Color.black);
-            for(int i=DIM*9;i<DIM*81;i+=DIM*27)
+            for(int i=DIM*27;i<DIM*81;i+=DIM*27)
             {
-               g.fillRect(i,0,3,DIM*27);
-               g.fillRect(0,i,DIM*27,3);
+               g.fillRect(i,0,3,DIM*81);
+               g.fillRect(0,i,DIM*81,3);
             }
             if(isPath)
                g.setColor(Color.green);
             else
                g.setColor(Color.blue);
-            g.fillRect((int)(DIM*27.1),0,DIM*2,DIM*2);
+            g.fillRect((int)(DIM*81.1),0,DIM*2,DIM*2);
             g.setColor(Color.black);
             temp="[";
             for(int i=0;i<ref.length;i++)
@@ -280,9 +282,8 @@ public class MetaBoard extends JPanel implements MouseListener
                }
             }
             temp+="]";
-            g.drawString(temp,0,DIM*28);
+            g.drawString(temp,0,DIM*82);
             break;
-      
       }
    }
    public void mouseClicked(MouseEvent e)
@@ -395,6 +396,89 @@ public class MetaBoard extends JPanel implements MouseListener
                      ref[1]=path[2];
                }
             }
+            break;
+         case 3:
+            if(x>81&&x<83&&y<2)
+            {
+               isPath=!isPath;
+               break;
+            }
+            path=new int[4];
+            path[0]=(y/27)*3+(x/27);
+            if(path[0]<3)
+            {
+               x-=path[0]*27;
+            }
+            else
+               if(path[0]<6)
+               {
+                  x-=(path[0]-3)*27;
+                  y-=27;
+               }
+               else
+               {
+                  x-=(path[0]-6)*27;
+                  y-=54;
+               }
+            path[1]=(y/9)*3+(x/9);
+            if(path[1]<3)
+            {
+               x-=path[1]*9;
+            }
+            else
+               if(path[1]<6)
+               {
+                  x-=(path[1]-3)*9;
+                  y-=9;
+               }
+               else
+               {
+                  x-=(path[1]-6)*9;
+                  y-=18;
+               }
+            path[2]=(y/3)*3+(x/3);
+            if(path[2]<3)
+            {
+               x-=path[2]*3;
+            }
+            else
+               if(path[2]<6)
+               {
+                  x-=(path[2]-3)*3;
+                  y-=3;
+               }
+               else
+               {
+                  x-=(path[2]-6)*3;
+                  y-=6;
+               }
+            path[3]=y*3+x;
+            if((path[0]==ref[0]&&path[1]==ref[1]&&path[2]==ref[2])||ref[0]==-1||(path[0]==ref[0]&&ref[1]==-1)||(path[0]==ref[0]&&ref[1]==path[1]&&ref[2]==-1)||!isPath)//normal move
+            {
+               if(master.set(path,turn))
+               {
+                  turn=!turn;
+                  if(((Board)(master.get(new int[]{path[1]}))).getSolve()!=0)
+                  {
+                     ref[0]=-1;
+                  }
+                  else
+                     ref[0]=path[1];
+                  if(((Board)(master.get(new int[]{path[1],path[2]}))).getSolve()!=0)
+                  {
+                     ref[1]=-1;
+                  }
+                  else
+                     ref[1]=path[2];
+                  if(((Board)(master.get(new int[]{path[1],path[2],path[3]}))).getSolve()!=0)
+                  {
+                     ref[2]=-1;
+                  }
+                  else
+                     ref[2]=path[3];
+               }
+            }
+         
             break;
       }
       master.checkSolved();
