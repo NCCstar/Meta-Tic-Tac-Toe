@@ -11,12 +11,27 @@ public class MetaBoard extends JPanel implements MouseListener
    private static int[] ref;
    public static int DIM;
    private boolean isPath=true;
+   private ArrayList<String> record = new ArrayList();
    boolean turn=true;
    public MetaBoard(int n,int s)
    {
       DIM=(int)(s/Math.pow(3,n+1));
       addMouseListener(this);
       layers=n;
+      master=new Board(layers);
+      ref=new int[n];
+      for(int i=0;i<ref.length;i++)
+      {
+         ref[i]=-1;
+      }
+   }
+   public MetaBoard(String add,int s)
+   {
+      Calendar cal = new Calendar();
+      
+      int n=1;//get from file
+      DIM=(int)(s/Math.pow(3,n+1));
+      addMouseListener(this);
       master=new Board(layers);
       ref=new int[n];
       for(int i=0;i<ref.length;i++)
