@@ -28,19 +28,16 @@ public class MetaBoard extends JPanel implements MouseListener
    }
    public MetaBoard(ArrayList<String> rec,int s)
    {   
-      int n=1;//get from file
-      DIM=(int)(s/Math.pow(3,n+1));
       addMouseListener(this);
+      layers=Integer.parseInt(rec.remove(0));
+      DIM=(int)(s/Math.pow(3,layers+1));
       master=new Board(layers);
       for(String x:rec)
       {
          String[] temp = x.split(",");
          int[] path = new int[temp.length];
-         for(int i=0;i<path.length;i++)
-         {
-            path[i] = Integer.parseInt(temp[i]);
-         }
-         
+         master.set(path,turn);
+         turn=!turn;
       }
    }
    public void paintComponent(Graphics g)
