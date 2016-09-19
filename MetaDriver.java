@@ -1,12 +1,14 @@
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
+import java.nio.file.*;
 public class MetaDriver
 {
+   public static File folder;
    public static void main(String[] arg)
    {
       MetaBoard board;
-      File folder = new File("Games/");
+      folder = new File("Games/");
       final int SIZE=900;
       int file=JOptionPane.showConfirmDialog(null,"Read from file?","File?",JOptionPane.YES_NO_OPTION);
       if(file==JOptionPane.YES_OPTION&&folder.listFiles().length>0)
@@ -56,5 +58,18 @@ public class MetaDriver
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setContentPane(board);
       frame.setVisible(true);
+   }
+   public static boolean makeFile(List<String> record)
+   {
+      try{
+      File newFile = new File(folder.getPath()+"/temp"+".txt");
+      Path path=newFile.toPath();
+      Files.write(path,record);
+      return true;
+      }
+      catch(Exception e)
+      {
+         return false;
+      }
    }
 }

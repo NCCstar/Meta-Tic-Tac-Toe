@@ -22,6 +22,7 @@ public class MetaBoard extends JPanel implements MouseListener
       layers=n;
       master=new Board(layers);
       ref=new int[n];
+      record.add(""+n);
       for(int i=0;i<ref.length;i++)
       {
          ref[i]=-1;
@@ -363,6 +364,11 @@ public class MetaBoard extends JPanel implements MouseListener
             break;
       }
    }
+   private void endAll()
+   {
+      MetaDriver.makeFile(record);
+      System.exit(0);
+   }
    public void mouseClicked(MouseEvent e)
    {
       if(!isWon)
@@ -373,6 +379,10 @@ public class MetaBoard extends JPanel implements MouseListener
          switch(layers)
          {
             case 0:
+               if(x>3&&x<5&&y<2)
+               {
+                  endAll();
+               }
                path = new int[1];
                path[0]=y*3+x;
                if(master.set(path,turn))
@@ -381,8 +391,7 @@ public class MetaBoard extends JPanel implements MouseListener
             case 1:
                if(x>9&&x<11&&y<2)
                {
-                  isPath=!isPath;
-                  break;
+                  endAll();
                }
                path=new int[2];
                path[0]=(y/3)*3+(x/3);
@@ -419,7 +428,7 @@ public class MetaBoard extends JPanel implements MouseListener
             case 2:
                if(x>27&&x<29&&y<2)
                {
-                  isPath=!isPath;
+                  endAll();
                   break;
                }
                path=new int[3];
@@ -479,8 +488,7 @@ public class MetaBoard extends JPanel implements MouseListener
             case 3:
                if(x>81&&x<83&&y<2)
                {
-                  isPath=!isPath;
-                  break;
+                  endAll();
                }
                path=new int[4];
                path[0]=(y/27)*3+(x/27);
@@ -559,6 +567,14 @@ public class MetaBoard extends JPanel implements MouseListener
                }
                break;
          }
+         String out = "";
+         for(int i=0;i<path.length-1;i++)
+         {
+            out+=path[i]+",";
+         }
+         out+=""+path[path.length-1];
+         record.add(out);
+         
          String temp="";
          for(int i=0;i<path.length;i++)
          {
