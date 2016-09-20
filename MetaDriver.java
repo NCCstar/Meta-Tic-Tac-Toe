@@ -62,7 +62,8 @@ public class MetaDriver
    public static boolean makeFile(List<String> record)
    {
       try{
-      File newFile = new File(folder.getPath()+"/temp"+".txt");
+      String name = (String)JOptionPane.showInputDialog(null,"What to call the file?","File Title",JOptionPane.QUESTION_MESSAGE);
+      File newFile = new File(folder.getPath()+"/"+name+".txt");
       Path path=newFile.toPath();
       Files.write(path,record);
       return true;

@@ -143,7 +143,7 @@ public class MetaBoard extends JPanel implements MouseListener
                }
             }
             temp+="]";
-            g.drawString(temp,0,DIM*10);
+            g.drawString(temp,0,(int)(DIM*9.1));
             break;
          case 2:
             g.setColor(Color.lightGray);
@@ -237,7 +237,7 @@ public class MetaBoard extends JPanel implements MouseListener
                }
             }
             temp+="]";
-            g.drawString(temp,0,DIM*28);
+            g.drawString(temp,0,(int)(DIM*27.4));
             break;
          case 3:
             g.setColor(Color.lightGray);
@@ -360,7 +360,7 @@ public class MetaBoard extends JPanel implements MouseListener
                }
             }
             temp+="]";
-            g.drawString(temp,0,DIM*82);
+            g.drawString(temp,0,(int)(DIM*82));
             break;
       }
    }
@@ -575,17 +575,6 @@ public class MetaBoard extends JPanel implements MouseListener
          out+=""+path[path.length-1];
          record.add(out);
          
-         String temp="";
-         for(int i=0;i<path.length;i++)
-         {
-            temp+=path[i];
-            if(i<path.length-1)
-            {
-               temp+=",";
-            }
-         }
-         temp+="";
-         record.add(temp);
          master.checkSolved();
          if(master.getSolve()!=0)
          {
